@@ -1,5 +1,25 @@
 @host = http://localhost:3000
 
+############################USERS###############################
 
-### Login por POST (correcto)
 GET {{host}}/api/users
+###
+GET {{host}}/api/users/1
+###
+GET  {{host}}/api/users/username/Ana
+###
+PUT {{host}}/api/users/1/avatar
+Content-Type: application/json
+
+{
+  "avatarUrl": "https://miweb.com/avatar2.png"
+}
+###
+
+PUT {{host}}/api/users/2/username
+Content-Type: application/json
+
+{
+  "username": "kevin"
+}
+
