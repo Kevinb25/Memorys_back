@@ -1,0 +1,32 @@
+{
+  "name": "memorys",
+  "version": "1.5.0",
+  "description": "Album de fotos digital.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint": "biome lint",
+    "format": "biome check --write"
+  },
+  "keywords": [
+    "express",
+    "init",
+    "template"
+  ],
+  "author": "Kevin Batista",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^5.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.0.1"
+  }
+}
