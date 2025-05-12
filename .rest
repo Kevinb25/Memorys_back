@@ -6,7 +6,7 @@ GET {{host}}/api/users
 ###
 GET {{host}}/api/users/1
 ###
-GET  {{host}}/api/users/username/Ana
+GET {{host}}/api/users/username/Ana
 ###
 PUT {{host}}/api/users/1/avatar
 Content-Type: application/json
@@ -15,7 +15,6 @@ Content-Type: application/json
   "avatarUrl": "https://miweb.com/avatar2.png"
 }
 ###
-
 PUT {{host}}/api/users/2/username
 Content-Type: application/json
 
@@ -23,3 +22,42 @@ Content-Type: application/json
   "username": "kevin"
 }
 
+########################ALBUM############################
+
+### Crear nuevo álbum
+POST {{host}}/api/album
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "name": "Viaje a París",
+  "theme": "clásico",
+  "category": "vacaciones"
+}
+###
+
+### Obtener álbum por ID
+GET {{host}}/api/album/1
+
+### Obtener álbum por token público (modo solo lectura)
+GET http://localhost:3000/api/album/viewer/904b5909-1d73-4c63-b025-580629c566ae
+
+### Actualizar álbum
+PUT http://localhost:3000/api/album/1
+Content-Type: application/json
+
+{
+  "name": "Nuevo nombre del álbum",
+  "category": "amistad",
+  "theme": "oscuro"
+}
+
+### Buscar álbum por nombre (parcial)
+GET http://localhost:3000/api/album/search/name?name=París
+
+
+### Eliminar álbum por ID
+DELETE http://localhost:3000/api/album/2
+
+### Obtener todos los álbumes de un usuario
+GET http://localhost:3000/api/album/user/1
