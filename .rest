@@ -109,3 +109,76 @@ Content-Type: application/json
   "albumId": 1,
   "userId": 2
 }
+
+###################photos###########################
+
+
+### Obtener todas las fotos de un álbum
+GET http://localhost:3000/api/photos/album/1
+
+### Obtener una foto por ID
+GET http://localhost:3000/api/photos/7
+
+
+### Editar datos de una foto
+PUT http://localhost:3000/api/photos/7
+Content-Type: application/json
+
+{
+  "title": "Nueva caminata en París",
+  "note": "La torre estaba más cerca",
+  "category": "viaje",
+  "takenDate": "2025-04-22",
+  "location": "París, Francia"
+}
+
+### Eliminar foto por ID
+
+DELETE {{host}}/api/photos/7
+####
+
+
+crear pero aqui no funciona 
+POST http://localhost:3000/api/photos
+Content-Type: multipart/form-data
+
+### Buscar fotos por categoría
+GET http://localhost:3000/api/photos/album/1/category/vacaciones
+
+### Buscar fotos por título (coincidencia parcial)
+GET http://localhost:3000/api/photos/album/1/search?title=hola
+
+
+######################REACCIONES########################################
+
+##########agregar reaccion###########
+
+POST http://localhost:3000/api/photo_reactions
+Content-Type: application/json
+
+{
+  "photoId": 7,
+  "userId": 2,
+  "emoji": "❤️",
+  "comment": "Muy buena foto!"
+}
+
+###
+
+### Obtener reacciones por foto
+GET http://localhost:3000/api/photo_reactions/photo/2
+
+###
+
+### Eliminar reacción
+DELETE http://localhost:3000/api/photo_reactions
+Content-Type: application/json
+
+{
+  "photoId": 1,
+  "userId": 2
+}
+
+
+### Obtener reacciones de una foto (con username y avatar)
+GET http://localhost:3000/api/photo_reactions/photo/1

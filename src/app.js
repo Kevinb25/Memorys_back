@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // bien para x-www-form-urlencoded
 app.use(cors());
 
 // Route configuration

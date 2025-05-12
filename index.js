@@ -1,9 +1,9 @@
+// Config .env (colocar al principio antes de cargar cualquier otro módulo)
+require("dotenv").config();
+
 // Server creation and configuration
 const http = require("node:http");
 const app = require("./src/app");
-
-// Config .env
-require("dotenv").config();
 
 // Server creation
 const server = http.createServer(app);
