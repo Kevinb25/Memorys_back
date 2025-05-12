@@ -61,3 +61,51 @@ DELETE http://localhost:3000/api/album/2
 
 ### Obtener todos los álbumes de un usuario
 GET http://localhost:3000/api/album/user/1
+
+
+
+
+#########################AlbumUser#####################################
+
+### Invitar usuario a un álbum
+POST {{host}}/api/albums_users
+Content-Type: application/json
+
+{
+  "albumId": 1,
+  "userId": 3,
+  "role": "viewer"
+}
+
+
+### Aceptar invitación a un álbum
+PUT http://localhost:3000/api/albums_users/accept
+Content-Type: application/json
+
+{
+  "albumId": 1,
+  "userId": 2
+}
+
+
+### Obtener todos los usuarios de un álbum
+GET http://localhost:3000/api/albums_users/album/1
+
+### Cambiar rol de usuario en álbum
+PUT http://localhost:3000/api/albums_users/role
+Content-Type: application/json
+
+{
+  "albumId": 1,
+  "userId": 2,
+  "role": "editor"
+}
+
+### Eliminar usuario de un álbum
+DELETE http://localhost:3000/api/albums_users
+Content-Type: application/json
+
+{
+  "albumId": 1,
+  "userId": 2
+}
