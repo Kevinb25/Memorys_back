@@ -64,4 +64,24 @@ const getAlbumsByUserId = async (userId) => {
     );
     return result;
 };
-module.exports = { createNewAlbum, getAlbumById, getAlbumByToken, updateAlbum, searchAlbumByName, deleteAlbum, getAlbumsByUserId }
+const generateUploadToken = async (albumId) => {
+    const uploadToken = crypto.randomUUID();
+
+    await pool.query(
+        'UPDATE albums SET upload_token = ? WHERE id = ?',
+        [uploadToken, albumId]
+    );
+
+    return uploadToken;
+};
+
+const getAlbumByUploadToken = async (uploadToken) => {
+    const [result] = await pool.query(
+        'SELECT * FROM albums WHERE upload_token = ?',
+        [uploadToken]
+    );
+
+    if (result.length === 0) return null;
+    return result[0];
+};
+module.exports = { createNewAlbum, getAlbumById, getAlbumByToken, updateAlbum, searchAlbumByName, deleteAlbum, getAlbumsByUserId, generateUploadToken, getAlbumByUploadToken }

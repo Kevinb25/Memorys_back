@@ -124,5 +124,33 @@ const getAlbumsByUserId = async (req, res, next) => {
         next(error);
     }
 };
+const generateUploadToken = async (req, res, next) => {
+    const { albumId } = req.params;
 
-module.exports = { createNewAlbum, getAlbumById, getAlbumByToken, updateAlbum, searchAlbumByName, deleteAlbum, getAlbumsByUserId };
+    try {
+        const token = await albumModel.generateUploadToken(albumId);
+        res.json({ uploadToken: token });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
+const getAlbumByUploadToken = async (req, res, next) => {
+    const { token } = req.params;
+
+    try {
+        const album = await albumModel.getAlbumByUploadToken(token);
+
+        if (!album) {
+            return res.status(404).json({ error: 'Álbum no encontrado' });
+        }
+
+        res.json(album);
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
+module.exports = { createNewAlbum, getAlbumById, getAlbumByToken, updateAlbum, searchAlbumByName, deleteAlbum, getAlbumsByUserId, generateUploadToken, getAlbumByUploadToken };

@@ -1,5 +1,8 @@
 @host = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTc0NzE0OTI2OSwiZXhwIjoxNzQ3NzU0MDY5fQ.Qgd_CKeWw69U9D93-_Jn49SP9n-Ntl8O3UEGIVnlge0
 
+GET {{host}}/api/photos/album/1
+Authorization: Bearer {{token}}
 ############################USERS###############################
 
 GET {{host}}/api/users
@@ -64,6 +67,11 @@ GET http://localhost:3000/api/album/user/1
 
 
 
+### Generar upload_token para un álbum existente
+GET {{host}}/api/album/upload-token/1
+
+### Obtener información del álbum usando el upload_token
+GET {{host}}/api/album/upload-access/092d45e2-bfdc-492b-91ec-c90656f3c4d9
 
 #########################AlbumUser#####################################
 
@@ -181,4 +189,37 @@ Content-Type: application/json
 
 
 ### Obtener reacciones de una foto (con username y avatar)
-GET http://localhost:3000/api/photo_reactions/photo/1
+GET http://localhost:3000/api/photo_reactions/photo/7
+
+
+#### Registro
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "kevin99",
+  "email": "kevin99@mail.com",
+  "password": "123456"
+}
+
+### Login clásico
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "kevin99@mail.com",
+  "password": "123456"
+}
+
+### Login por QR (reemplaza el token)
+GET {{host}}/api/auth/login/qr/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTc0NzA4NTcwMCwiZXhwIjoxNzQ3NjkwNTAwfQ.XetDzZMvARYCG4qdJFOtPj8mo5sOz18vauupjLpmQFQ
+
+### Ver álbum público
+GET {{host}}/api/auth/album/0e4b857f-fe43-45fd-8e9f-d849ee0ff378
+
+
+### Obtener imagen QR para token (base64)
+GET http://localhost:3000/api/auth/qr-image/<token>
+
+### Obtener QR visual para ver un álbum (modo solo lectura)
+GET http://localhost:3000/api/auth/album/qr/904b5909-1d73-4c63-b025-580629c566ae

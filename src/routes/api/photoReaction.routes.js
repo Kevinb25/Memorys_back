@@ -4,9 +4,10 @@ const {
     getReactionsByPhotoId,
     deleteReaction
 } = require('../../controllers/photoReaction.controller');
+const verifyToken = require('../../middlewares/verifyToken');
 
-router.post('/', addReaction);
+router.post('/', verifyToken, addReaction);
 router.get('/photo/:photoId', getReactionsByPhotoId);
-router.delete('/', deleteReaction);
+router.delete('/', verifyToken, deleteReaction);
 
 module.exports = router;
