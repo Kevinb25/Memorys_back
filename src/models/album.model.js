@@ -4,17 +4,39 @@ const crypto = require('crypto');
 
 const createNewAlbum = async ({ userId, name, theme, category }) => {
     const publicToken = crypto.randomUUID();
+    const conn = await pool.getConnection();
 
-    const [result] = await pool.query(
-        `INSERT INTO albums (user_id, name, category, theme, public_token)
-     VALUES (?, ?, ?, ?, ?)`,
-        [userId, name, category, theme, publicToken]
-    );
+    try {
+        await conn.beginTransaction();
 
-    return {
-        albumId: result.insertId,
-        publicToken
-    };
+        // Crear álbum
+        const [albumResult] = await conn.query(
+            `INSERT INTO albums (user_id, name, category, theme, public_token)
+       VALUES (?, ?, ?, ?, ?)`,
+            [userId, name, category, theme, publicToken]
+        );
+
+        const albumId = albumResult.insertId;
+
+        // Relacionarlo con el usuario como owner
+        await conn.query(
+            `INSERT INTO albums_users (album_id, user_id, role, status)
+       VALUES (?, ?, 'owner', 'accepted')`,
+            [albumId, userId]
+        );
+
+        await conn.commit();
+
+        return {
+            albumId,
+            publicToken
+        };
+    } catch (err) {
+        await conn.rollback();
+        throw err;
+    } finally {
+        conn.release();
+    }
 };
 
 const getAlbumById = async (id) => {
@@ -59,7 +81,14 @@ const deleteAlbum = async (id) => {
 
 const getAlbumsByUserId = async (userId) => {
     const [result] = await pool.query(
-        'SELECT * FROM albums WHERE user_id = ?',
+        `SELECT 
+       a.*, 
+       au.album_id AS albumId,
+       au.role, 
+       au.status
+     FROM albums a
+     JOIN albums_users au ON a.id = au.album_id
+     WHERE au.user_id = ? AND au.status = 'accepted'`,
         [userId]
     );
     return result;

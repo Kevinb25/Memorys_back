@@ -8,11 +8,11 @@ const generateQrBase64 = require('../utils/qrcode');
 const registerUser = async ({ username, email, passwordHash, qrToken }) => {
     const [result] = await pool.query(
         `INSERT INTO users (username, email, password, qr_token)
-         VALUES (?, ?, ?, ?)`,
+     VALUES (?, ?, ?, ?)`,
         [username, email, passwordHash, qrToken]
     );
 
-    return { insertId: result.insertId };
+    return result.insertId; // <--- Solo el ID como número
 };
 
 // Buscar usuario por email

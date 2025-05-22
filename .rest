@@ -1,5 +1,5 @@
 @host = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTc0NzE0OTI2OSwiZXhwIjoxNzQ3NzU0MDY5fQ.Qgd_CKeWw69U9D93-_Jn49SP9n-Ntl8O3UEGIVnlge0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzUsImlhdCI6MTc0NzMzNDQwMiwiZXhwIjoxNzQ3OTM5MjAyfQ.p7qNjEvl6Lh5R0Egk7QzKdCJZHlcisA88w0sDF65ZKQ
 
 GET {{host}}/api/photos/album/1
 Authorization: Bearer {{token}}
@@ -30,10 +30,11 @@ Content-Type: application/json
 ### Crear nuevo álbum
 POST {{host}}/api/album
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksImlhdCI6MTc0NzQ5MjM2OCwiZXhwIjoxNzQ4MDk3MTY4fQ.5Wmf4LKN0WEZssAo6UDHWKgajRzqL9iC7r4thUvQmJs
 
 {
-  "userId": 1,
-  "name": "Viaje a París",
+  "userId": 39,
+  "name": "prueba 3",
   "theme": "clásico",
   "category": "vacaciones"
 }
@@ -63,8 +64,10 @@ GET http://localhost:3000/api/album/search/name?name=París
 DELETE http://localhost:3000/api/album/2
 
 ### Obtener todos los álbumes de un usuario
-GET http://localhost:3000/api/album/user/1
 
+GET http://localhost:3000/api/album/user/35
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
 ### Generar upload_token para un álbum existente
@@ -197,9 +200,9 @@ POST {{host}}/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "kevin99",
-  "email": "kevin99@mail.com",
-  "password": "123456"
+  "username": "admin",
+  "email": "admin@gmail.com",
+  "password": "admin"
 }
 
 ### Login clásico
@@ -207,8 +210,8 @@ POST {{host}}/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "kevin99@mail.com",
-  "password": "123456"
+  "email": "admin@gmail.com",
+  "password": "admin"
 }
 
 ### Login por QR (reemplaza el token)
@@ -223,3 +226,4 @@ GET http://localhost:3000/api/auth/qr-image/<token>
 
 ### Obtener QR visual para ver un álbum (modo solo lectura)
 GET http://localhost:3000/api/auth/album/qr/904b5909-1d73-4c63-b025-580629c566ae
+###

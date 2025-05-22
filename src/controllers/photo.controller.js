@@ -2,6 +2,8 @@ const photoModel = require('../models/photo.model');
 
 const addPhoto = async (req, res, next) => {
     try {
+        console.log('🟡 BODY:', req.body);
+        console.log('🟡 FILE:', req.file)
         const {
             albumId,
             title,
@@ -11,20 +13,28 @@ const addPhoto = async (req, res, next) => {
             location
         } = req.body;
 
+        // Validar albumId
+        const parsedAlbumId = Number(albumId);
+        if (!parsedAlbumId || isNaN(parsedAlbumId)) {
+            return res.status(400).json({ error: 'albumId inválido o ausente' });
+        }
+
+        // Validar archivo subido
         if (!req.file || !req.file.path) {
             return res.status(400).json({ error: 'No se ha subido ninguna imagen o video' });
         }
 
+        const formattedDate = takenDate?.split('T')[0]; // Convertir ISO a 'YYYY-MM-DD'
         const photoUrl = req.file.path;
         const publicId = req.file.filename;
 
         const result = await photoModel.addPhoto({
-            albumId: Number(albumId),
+            albumId: parsedAlbumId,
             title,
             note,
             category,
             photoUrl,
-            takenDate,
+            takenDate: formattedDate,
             location,
             publicId
         });
@@ -95,7 +105,7 @@ const deletePhoto = async (req, res, next) => {
         res.json({ message: 'Foto eliminada correctamente' });
     } catch (error) {
         console.error(error);
-        next(error);
+        res.status(500).json({ error: 'Error interno al eliminar la foto' });
     }
 };
 const getPhotosByCategory = async (req, res, next) => {

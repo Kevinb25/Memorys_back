@@ -1,4 +1,5 @@
 const pool = require("../config/db");
+const db = require('../config/db');
 
 const getAllUsers = async () => {
     const result = await pool.query('SELECT * FROM users');
@@ -33,4 +34,19 @@ const updateUsername = async (id, username) => {
     return result;
 };
 
-module.exports = { getAllUsers, getUserById, getUserByName, updateAvatar, updateUsername }
+const getUserByEmail = async (email) => {
+    const [result] = await pool.query(
+        `SELECT id, username, email FROM users WHERE email = ?`,
+        [email]
+    );
+    return result[0];
+};
+const getByEmailOrUsername = async (emailOrUsername) => {
+    const [rows] = await db.query(
+        `SELECT * FROM users WHERE email = ? OR username = ? LIMIT 1`,
+        [emailOrUsername, emailOrUsername]
+    );
+    return rows[0];
+};
+
+module.exports = { getAllUsers, getUserById, getUserByName, updateAvatar, updateUsername, getUserByEmail, getByEmailOrUsername }
